@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Triparr - Requests</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            background-color: #0A0A0A;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar for technical utility feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#adc6ff",
+                        "tertiary": "#ffb95f",
+                        "surface-bright": "#3a3939",
+                        "surface": "#131313",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-primary-container": "#00285d",
+                        "secondary-fixed-dim": "#4edea3",
+                        "outline": "#8c909f",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed": "#2a1700",
+                        "inverse-primary": "#005ac2",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-primary-fixed": "#001a42",
+                        "inverse-on-surface": "#313030",
+                        "inverse-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#c2c6d6",
+                        "surface-variant": "#353534",
+                        "surface-container-highest": "#353534",
+                        "secondary": "#4edea3",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "tertiary-container": "#ca8100",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#424754",
+                        "primary-container": "#4d8eff",
+                        "on-tertiary": "#472a00",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-container": "#00a572",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#003824",
+                        "on-primary-fixed-variant": "#004395",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary-container": "#3e2400",
+                        "on-error": "#690005",
+                        "on-primary": "#002e6a",
+                        "primary-fixed": "#d8e2ff",
+                        "background": "#131313",
+                        "on-secondary-container": "#00311f",
+                        "surface-container": "#201f1f",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-background": "#e5e2e1",
+                        "on-surface": "#e5e2e1",
+                        "primary": "#adc6ff",
+                        "on-secondary-fixed": "#002113"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "48px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "md": "16px",
+                        "container-max": "1440px",
+                        "xs": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "label-code": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-code": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-caps": ["11px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg text-body-lg mb-20">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-md h-16 bg-surface-container-low border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="dns">dns</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Triparr</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant/50 transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="pt-20 px-md space-y-md">
+<!-- Section Header -->
+<div class="flex items-center justify-between py-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Active Requests</h2>
+<span class="font-label-code text-label-code bg-surface-container-high px-2 py-1 rounded text-primary-fixed-dim">3 RUNNING</span>
+</div>
+<!-- Request Card: Downloading -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl p-md flex flex-col gap-md relative overflow-hidden group">
+<div class="flex gap-md">
+<div class="w-20 h-28 flex-shrink-0 bg-surface-container rounded overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A moody, high-contrast cinematic movie poster for a sci-fi thriller set in a futuristic neo-noir city. The visual style is dominated by deep blacks and cool electric blues, consistent with a technical debrid application UI. Glowing geometric light patterns reflect off wet asphalt, creating a sense of high-performance and mystery. The lighting is low-key, emphasizing sharp edges and metallic textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxhT0dYZjwOQ17ZyKk0gKjLsgoMtcY2weIzRBBBANBK9tuJ6MCogkfyX2pQOr6WVQhDZKwezWLiiTIl0GKC-yhGUsGnYklV4oZlBudhKS7F6IJY5sQv1iv1oorxYCfeXsXqB84XfJg5pna_A4Qsb-6uKQS2eFnrl5r27WXhewqQp8lD0Ds2y2NC2F-7a4mrVQA5Nm5bhRrKRdWsfCOeb3K3IcpQk7JbHuKa8OdpnS6ppNamV7PkfdT"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-headline-md text-on-surface truncate">Project Hail Mary</h3>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                            Downloading
+                        </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">2026 • 4K HDR • 64.2 GB</p>
+<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="speed">speed</span>
+<span>42.5 MB/s</span>
+<span class="mx-1">•</span>
+<span>12m remaining</span>
+</div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-code text-label-code text-on-surface-variant">
+<span>Progress</span>
+<span>68%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-500 ease-out" style="width: 68%;"></div>
+</div>
+</div>
+<div class="flex gap-sm pt-2">
+<button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-variant/50 rounded text-on-surface transition-colors duration-200">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+<span class="font-label-caps text-label-caps">Details</span>
+</button>
+<button class="px-4 py-2 bg-error-container/20 hover:bg-error-container/40 text-error rounded transition-colors duration-200">
+<span class="material-symbols-outlined text-[18px]" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- Request Card: Searching -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl p-md flex flex-col gap-md relative overflow-hidden">
+<div class="flex gap-md">
+<div class="w-20 h-28 flex-shrink-0 bg-surface-container rounded overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A minimalist television series poster featuring a lone figure standing against a vast, stark desert landscape under a pale lavender sky. The composition is clean and geometric, following a modern corporate aesthetic with high information density potential. Subdued lighting and a focus on architectural lines create a serene yet high-tech atmosphere, using the brand's tertiary gold and muted surface tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA91U1X_hA8fm1tfBTx724AGRNyDxulEfNkd5mAtJYvzVm8kENDJr-15oPALL7sjH49tq3M5T-MX39rIM4RWM7MyGKc45FO9x9UiNCvJ0zytat5h-kMqHNwhzunupWdbO0hFOrW3uUAne_nXLOzstxD898rhEdx80MeSvoyXTJS-Gw0dTrYs4ZPu42KUykdk7bpMQEqUopFV0fbcjcUhv3PchCm_UL-EhV50cVx7K4RaeEfuBozyiYS"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-headline-md text-on-surface truncate">The Last of Us S02</h3>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-full">
+                            Searching
+                        </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Series • 1080p Web-DL</p>
+<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="hub">hub</span>
+<span>8 Indexers active</span>
+</div>
+</div>
+</div>
+<div class="flex gap-sm pt-2">
+<button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-variant/50 rounded text-on-surface transition-colors duration-200">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+<span class="font-label-caps text-label-caps">Modify</span>
+</button>
+<button class="px-4 py-2 bg-error-container/20 hover:bg-error-container/40 text-error rounded transition-colors duration-200">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Section Header: Past -->
+<div class="flex items-center justify-between py-sm pt-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface">History</h2>
+<button class="text-primary font-label-caps text-label-caps">Clear All</button>
+</div>
+<!-- History Item: Completed -->
+<div class="bg-surface-container-low/50 border border-outline-variant/50 rounded-xl p-md flex items-center gap-md">
+<div class="w-12 h-16 flex-shrink-0 bg-surface-container rounded overflow-hidden grayscale">
+<img class="w-full h-full object-cover" data-alt="A stylized digital illustration of a futuristic spacecraft orbiting a vibrant purple gas giant. The art style is crisp and technical, reminiscent of high-end developer tool interface assets. Sharp vectors and glowing data nodes are scattered across the composition, maintaining the darkspace aesthetic of the Triparr platform. The lighting is focused and dramatic, highlighting the secondary emerald green accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpYXuE2HNrXKpABAeHu253YJIFAT2F0C5y2dUeaYicuqVaxq8bKYlu3Ii9nJ6r0UI_-ciyPPOWfiQH340KlJ6ih2G0wbm4_bMsZW4V7gQ3fBME26p8MH15dTNsdBiknEAIiKTbhAEvA2dqEbLQVvaBtXVBriALOIGbqKivAsv9Ryh7ThfJBeW_BbR9rZBb1tKtc_h2a3i7Q8FEVujjDVqxVYev4VyOzakY0BIE2unfx5sasjib0nb0"/>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-body-lg text-body-lg text-on-surface truncate">Blade Runner 2049</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="flex items-center gap-1 font-label-caps text-[10px] text-secondary bg-secondary/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[12px] fill-icon" data-icon="check_circle">check_circle</span>
+                        Completed
+                    </span>
+<span class="font-label-code text-[10px] text-on-surface-variant">2 days ago</span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant/30">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- History Item: Error -->
+<div class="bg-surface-container-low/50 border border-outline-variant/50 rounded-xl p-md flex items-center gap-md">
+<div class="w-12 h-16 flex-shrink-0 bg-surface-container rounded overflow-hidden grayscale opacity-50">
+<img class="w-full h-full object-cover" data-alt="An abstract cinematic visual featuring layered glass textures and deep obsidian shadows. Sharp crystalline shards reflect faint streaks of debrid blue and emerald green. The mood is cold and technical, suggesting a high-performance infrastructure background. Precise geometry and extreme whitespace—or darkspace—define the layout, perfectly fitting a modern media hub aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDurfzIcx48vv6VffAYcjJkunWaSt1YiW5yjKCiqiQJ7w2R6dxnImk2QP6N8Ea9Jins-Tr9KMePk6me7F7RSyDuMXeDjQoCHGo6Orya05Vs-b56H_NO39iBeqBVkGVM6NvEpvC6Mp6r8qw2OEB2cTHsEvDnEgEurRnF99hFujrTsqIJo9yRJzbm3cGlqe6etX7way2QV8uKuCWCoDT24hRGFniYV7NXnI4wAa28RZDAInsmNyJnGHIF"/>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-body-lg text-body-lg text-on-surface truncate">Dune: Part Two</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="flex items-center gap-1 font-label-caps text-[10px] text-error bg-error/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[12px]" data-icon="error">error</span>
+                        Quota Exceeded
+                    </span>
+<span class="font-label-code text-[10px] text-on-surface-variant">5 days ago</span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-primary/10">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-2 bg-surface-container-low border-t border-outline-variant md:hidden">
+<!-- Discover -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-caps text-label-caps mt-1">Discover</span>
+</a>
+<!-- Requests (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="list_alt">list_alt</span>
+<span class="font-label-caps text-label-caps mt-1">Requests</span>
+</a>
+<!-- Activity -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">Activity</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps mt-1">Settings</span>
+</a>
+</nav>
+<!-- Micro-interaction for Progress Bar -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.h-full.bg-primary');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        });
+    </script>
+</body></html>

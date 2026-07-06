@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Next.js build cache and output
+.next/
+out/
+
+# Database, local downloads, binaries, and keys
+data/
+verify_data/
+
+# Environment secrets
+.env
+.env.local
+.env.production
+
+# IDE and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Verification test leftovers
+verify.ts
+verify_libraries.ts

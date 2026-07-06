@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Triparr Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#adc6ff",
+                    "tertiary": "#ffb95f",
+                    "surface-bright": "#3a3939",
+                    "surface": "#131313",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-primary-container": "#00285d",
+                    "secondary-fixed-dim": "#4edea3",
+                    "outline": "#8c909f",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-tertiary-fixed": "#2a1700",
+                    "inverse-primary": "#005ac2",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-primary-fixed": "#001a42",
+                    "inverse-on-surface": "#313030",
+                    "inverse-surface": "#e5e2e1",
+                    "error-container": "#93000a",
+                    "on-surface-variant": "#c2c6d6",
+                    "surface-variant": "#353534",
+                    "surface-container-highest": "#353534",
+                    "secondary": "#4edea3",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "tertiary-container": "#ca8100",
+                    "error": "#ffb4ab",
+                    "outline-variant": "#424754",
+                    "primary-container": "#4d8eff",
+                    "on-tertiary": "#472a00",
+                    "tertiary-fixed": "#ffddb8",
+                    "secondary-container": "#00a572",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-dim": "#131313",
+                    "on-secondary": "#003824",
+                    "on-primary-fixed-variant": "#004395",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-container": "#3e2400",
+                    "on-error": "#690005",
+                    "on-primary": "#002e6a",
+                    "primary-fixed": "#d8e2ff",
+                    "background": "#131313",
+                    "on-secondary-container": "#00311f",
+                    "surface-container": "#201f1f",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-background": "#e5e2e1",
+                    "on-surface": "#e5e2e1",
+                    "primary": "#adc6ff",
+                    "on-secondary-fixed": "#002113"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "xl": "48px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "md": "16px",
+                    "container-max": "1440px",
+                    "xs": "4px",
+                    "gutter": "20px"
+            },
+            "fontFamily": {
+                    "label-code": ["JetBrains Mono"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "display": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-code": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-caps": ["11px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0A0A0A;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+        .settings-card {
+            background-color: #171717;
+            border: 1px solid #262626;
+            transition: border-color 0.2s ease;
+        }
+        .settings-card:focus-within {
+            border-color: #adc6ff;
+        }
+        .custom-input {
+            background-color: #0F0F0F;
+            border: 1px solid #262626;
+            transition: all 0.2s ease;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: #adc6ff;
+            box-shadow: 0 0 0 1px #adc6ff;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-lg text-body-lg">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-md h-16 bg-surface-container-low dark:bg-surface-container-low border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="dns">dns</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Triparr</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant/50 transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="help_outline">help_outline</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-md max-w-lg mx-auto space-y-lg">
+<div class="space-y-base">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background">System Settings</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Configure your backend service integrations for media discovery and retrieval.</p>
+</div>
+<!-- TMDB Section -->
+<section class="settings-card rounded-xl p-md space-y-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="movie">movie</span>
+<h3 class="font-headline-md text-headline-md">TMDB API</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The Movie Database API is used for metadata, posters, and discovery features.</p>
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">API KEY (V3 AUTH)</label>
+<div class="relative">
+<input class="w-full h-12 px-md rounded-lg custom-input font-label-code text-label-code text-on-surface" placeholder="••••••••••••••••••••••••" type="password"/>
+<button class="absolute right-3 top-3 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full h-11 flex items-center justify-center gap-sm rounded-lg bg-surface-container-high border border-outline-variant hover:bg-surface-variant/50 transition-all active:scale-95" onclick="testConnection(this)">
+<span class="material-symbols-outlined text-[18px]" data-icon="sync">sync</span>
+<span class="font-label-caps text-label-caps">Test Connection</span>
+</button>
+</section>
+<!-- Torznab Section -->
+<section class="settings-card rounded-xl p-md space-y-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-tertiary" data-icon="hub">hub</span>
+<h3 class="font-headline-md text-headline-md">Torznab Indexers</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Add a Prowlarr or Jackett Torznab endpoint to search for content.</p>
+<div class="space-y-md">
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">ENDPOINT URL</label>
+<input class="w-full h-12 px-md rounded-lg custom-input font-label-code text-label-code text-on-surface" placeholder="http://192.168.1.50:9696/1" type="text"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">API TOKEN</label>
+<input class="w-full h-12 px-md rounded-lg custom-input font-label-code text-label-code text-on-surface" placeholder="••••••••••••••••" type="password"/>
+</div>
+</div>
+<button class="w-full h-11 flex items-center justify-center gap-sm rounded-lg bg-surface-container-high border border-outline-variant hover:bg-surface-variant/50 transition-all active:scale-95" onclick="testConnection(this)">
+<span class="material-symbols-outlined text-[18px]" data-icon="sync">sync</span>
+<span class="font-label-caps text-label-caps">Test Connection</span>
+</button>
+</section>
+<!-- Real-Debrid Section -->
+<section class="settings-card rounded-xl p-md space-y-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
+<h3 class="font-headline-md text-headline-md">Real-Debrid</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">High-speed unrestricted downloading service for cached content.</p>
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">API TOKEN</label>
+<div class="relative">
+<input class="w-full h-12 px-md rounded-lg custom-input font-label-code text-label-code text-on-surface" placeholder="••••••••••••••••" type="password"/>
+<button class="absolute right-3 top-3 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+<button class="w-full h-11 flex items-center justify-center gap-sm rounded-lg bg-primary-container text-on-primary-container hover:brightness-110 transition-all active:scale-95" onclick="testConnection(this)">
+<span class="material-symbols-outlined text-[18px]" data-icon="bolt">bolt</span>
+<span class="font-label-caps text-label-caps">Test Connection</span>
+</button>
+</section>
+<!-- Danger Zone -->
+<div class="pt-md border-t border-outline-variant">
+<button class="w-full h-12 flex items-center justify-center gap-sm rounded-lg border border-error/30 text-error hover:bg-error/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete_forever">delete_forever</span>
+<span class="font-label-caps text-label-caps">Reset Configuration</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-2 bg-surface-container-low dark:bg-surface-container-low border-t border-outline-variant dark:border-outline-variant">
+<!-- Discover -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-caps text-label-caps">Discover</span>
+</div>
+<!-- Requests -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-label-caps text-label-caps">Requests</span>
+</div>
+<!-- Activity -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps">Activity</span>
+</div>
+<!-- Settings (Active) -->
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</div>
+</nav>
+<script>
+        function testConnection(btn) {
+            const originalContent = btn.innerHTML;
+            const icon = btn.querySelector('.material-symbols-outlined');
+            
+            // Interaction feedback
+            btn.classList.add('opacity-70', 'pointer-events-none');
+            if(icon) icon.classList.add('animate-spin');
+            
+            setTimeout(() => {
+                btn.classList.remove('opacity-70', 'pointer-events-none');
+                if(icon) icon.classList.remove('animate-spin');
+                
+                // Success state
+                const isSuccess = Math.random() > 0.2;
+                if(isSuccess) {
+                    btn.classList.add('bg-secondary-container', 'text-on-secondary-container');
+                    btn.innerHTML = `
+                        <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        <span class="font-label-caps text-label-caps">Connected</span>
+                    `;
+                } else {
+                    btn.classList.add('bg-error-container', 'text-on-error-container');
+                    btn.innerHTML = `
+                        <span class="material-symbols-outlined text-[18px]">error</span>
+                        <span class="font-label-caps text-label-caps">Failed</span>
+                    `;
+                }
+
+                setTimeout(() => {
+                    btn.classList.remove('bg-secondary-container', 'text-on-secondary-container', 'bg-error-container', 'text-on-error-container');
+                    btn.innerHTML = originalContent;
+                }, 2000);
+            }, 1500);
+        }
+    </script>
+</body></html>

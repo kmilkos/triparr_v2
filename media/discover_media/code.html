@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-card {
+            background: rgba(23, 23, 23, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #262626;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#adc6ff",
+                        "tertiary": "#ffb95f",
+                        "surface-bright": "#3a3939",
+                        "surface": "#131313",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-primary-container": "#00285d",
+                        "secondary-fixed-dim": "#4edea3",
+                        "outline": "#8c909f",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed": "#2a1700",
+                        "inverse-primary": "#005ac2",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-primary-fixed": "#001a42",
+                        "inverse-on-surface": "#313030",
+                        "inverse-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#c2c6d6",
+                        "surface-variant": "#353534",
+                        "surface-container-highest": "#353534",
+                        "secondary": "#4edea3",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "tertiary-container": "#ca8100",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#424754",
+                        "primary-container": "#4d8eff",
+                        "on-tertiary": "#472a00",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-container": "#00a572",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#003824",
+                        "on-primary-fixed-variant": "#004395",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary-container": "#3e2400",
+                        "on-error": "#690005",
+                        "on-primary": "#002e6a",
+                        "primary-fixed": "#d8e2ff",
+                        "background": "#131313",
+                        "on-secondary-container": "#00311f",
+                        "surface-container": "#201f1f",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-background": "#e5e2e1",
+                        "on-surface": "#e5e2e1",
+                        "primary": "#adc6ff",
+                        "on-secondary-fixed": "#002113"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "48px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "md": "16px",
+                        "container-max": "1440px",
+                        "xs": "4px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "label-code": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-code": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-caps": ["11px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg text-body-lg min-h-screen pb-24">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-md h-16 bg-surface-container-low dark:bg-surface-container-low border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="dns">dns</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Triparr</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant/50 transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-md">
+<!-- Search Section -->
+<section class="mt-md">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</div>
+<input class="w-full h-14 bg-surface-container-high border border-outline-variant rounded-xl pl-12 pr-md font-body-lg text-body-lg focus:outline-none focus:border-primary transition-all duration-300" placeholder="Search movies or TV shows..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-md flex items-center">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="mic">mic</span>
+</div>
+</div>
+</section>
+<!-- Featured / Trending Slider -->
+<section class="mt-lg">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-md text-headline-md text-on-surface">Trending Now</h2>
+<button class="font-label-caps text-label-caps text-primary uppercase tracking-widest">See All</button>
+</div>
+<div class="flex gap-md overflow-x-auto hide-scrollbar -mx-md px-md pb-md">
+<!-- Media Card 1 -->
+<div class="flex-shrink-0 w-44">
+<div class="relative rounded-xl overflow-hidden aspect-[2/3] group shadow-lg">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A moody cinematic poster for a sci-fi epic featuring a lone explorer on a neon-drenched futuristic city street. The atmosphere is dense with fog and glowing blue and pink lights. The color palette is dark and technical, with high contrast shadows and sharp metallic textures, matching a premium media server UI aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9zUzPe6AjlHV1SupAtir9UxTuD9N6Rg51wvi1pbLgkfUh7essPIYNrr1JtMUp8kSv3eni8DD7YFYYXUC-3u6OUuxkbZSQyfDptf3kCFUenqjUkOoBhJv40DcaFIimp2ebAap1Kj8SEhA2hBcCrl-hAT-I9E4bs2A6Sp2oAoxfW3O-Q3uBiWMg0V8gXUL01TWWKvskl3nMBtgxOTgB7H9Ns5WeoMlIbD1TFHxAWkdiZco64ww6XP1w')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-sm right-sm bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[10px] font-label-code text-secondary uppercase">4K HDR</div>
+</div>
+<div class="mt-sm">
+<h3 class="font-headline-md text-[14px] truncate text-on-surface">Neon Horizon</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">2024 • Movie</span>
+<span class="font-label-code text-[11px] text-tertiary">★ 8.4</span>
+</div>
+<button class="w-full mt-sm py-2 bg-primary-container text-on-primary-container rounded-lg font-label-caps text-label-caps uppercase tracking-wider transition-transform active:scale-95">Request</button>
+</div>
+</div>
+<!-- Media Card 2 -->
+<div class="flex-shrink-0 w-44">
+<div class="relative rounded-xl overflow-hidden aspect-[2/3] group shadow-lg">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A gritty thriller poster displaying a close-up of a digital forensic specialist in a dark room illuminated only by multiple high-resolution code screens. The style is hyper-modern and corporate, using a palette of deep blacks, cool grays, and electric blue highlights. The lighting is dramatic, casting sharp shadows across the sophisticated workstation." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcOi7qjAfDxn4uQ-6mhkb1BA-4aREC1Coie_-Ufdax9VNuhXKeT__N0wc3sY6Z7TcOZCeSZ76c9eY-rdbWSB1jLkVa09GttnP4qrMzu8CuJiJWUYMUynCRyzxEKQXUHrxOeavIkUrPTxNexdO9lPoXJ9IGWc2BEF-572DZCsJO_0QK_xICLtofhybCPVueByYnj1dYBVzxXfzCeWM1WDffB9X9j8tmnfcjIXG9Jl8ozbN7SxEzmBiQ')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-sm right-sm bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[10px] font-label-code text-secondary uppercase">1080P</div>
+</div>
+<div class="mt-sm">
+<h3 class="font-headline-md text-[14px] truncate text-on-surface">The Breach</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">2023 • Series</span>
+<span class="font-label-code text-[11px] text-tertiary">★ 7.9</span>
+</div>
+<button class="w-full mt-sm py-2 border border-outline-variant text-on-surface-variant rounded-lg font-label-caps text-label-caps uppercase tracking-wider transition-colors hover:bg-surface-variant/30">Request</button>
+</div>
+</div>
+<!-- Media Card 3 -->
+<div class="flex-shrink-0 w-44">
+<div class="relative rounded-xl overflow-hidden aspect-[2/3] group shadow-lg">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="An expansive aerial landscape of a fantasy kingdom with towering white spires and lush emerald forests, captured in the golden hour. The visual style is epic and immersive, featuring soft warm lighting and a vibrant color palette of greens and golds. The aesthetic is clean and high-fidelity, suitable for a premium streaming service content card." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDudoXhy5cJzL3VY1Upn1I_qmoe8nIQZppnakcmm4Y3CQwCkOgDX__-qJG69ndb_Pubfsj_5YRewzrwDIKA20MpYn5kN-1_LoLnBM0mvEBUn6fIm4Hwq_gTeptzOUcgAgdcwCtb1mm-dF8VUvFstuFOsK3ETeXglS4vlwo_qDaRzSg3g1HEcRdDymiERNdwNbff-S6uEoHSryDqX5huLeT9gXZT0mQvmEegcsBy2-qkiLqLeGmzNivu')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-sm right-sm bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[10px] font-label-code text-secondary uppercase">4K</div>
+</div>
+<div class="mt-sm">
+<h3 class="font-headline-md text-[14px] truncate text-on-surface">Eldoria</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">2024 • Movie</span>
+<span class="font-label-code text-[11px] text-tertiary">★ 9.1</span>
+</div>
+<button class="w-full mt-sm py-2 bg-primary-container text-on-primary-container rounded-lg font-label-caps text-label-caps uppercase tracking-wider transition-transform active:scale-95">Request</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommended Bento Grid -->
+<section class="mt-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md">Recommended for You</h2>
+<div class="grid grid-cols-2 gap-md">
+<!-- Large Item -->
+<div class="col-span-2 relative group rounded-xl overflow-hidden h-48 border border-outline-variant">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A hyper-realistic cinematic scene showing a high-speed pursuit of a sleek futuristic motorcycle through a rain-slicked city at night. Reflected lights dance on the asphalt in shades of teal and orange. The design is clean, technical, and high-performance, emphasizing speed and modern infrastructure aesthetics with a dark, immersive background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbS7f1ZW9kybjs9TWyneWPtBaTNEJEwQ14g67B2vbEt1vcRqUHvqpTraRWT_hAwwkVAHKosApR5wJlMZDButAzHtQn6OwkFC8gwoJz5lGGTSoOWbfiwRavqM53GINdlrGVgrehqLIpq2qdWTA42ADFygdwkgPl9ABlr8_VDLixDw_UOFxiP4yTQoH31GZ5nkLCU17JkeT13AlEgJLlK7u1F_loK95V7AVa9SksfrtOKdW_oBu1ofxE')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+<div class="absolute inset-0 p-md flex flex-col justify-end">
+<span class="bg-secondary/10 text-secondary border border-secondary/20 font-label-code text-[10px] w-fit px-2 py-0.5 rounded-full mb-xs">HIGH BITRATE</span>
+<h3 class="font-headline-md text-headline-md text-white">Velocity X</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-[200px]">The definitive high-speed thriller of the year.</p>
+<div class="mt-sm">
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-md py-1.5 rounded-full uppercase tracking-wider">Details</button>
+</div>
+</div>
+</div>
+<!-- Small Grid Items -->
+<div class="glass-card rounded-xl p-sm flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-secondary mb-xs" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SMART PICK</span>
+<h4 class="font-headline-md text-[14px] mt-xs">Archive 81</h4>
+</div>
+<div class="glass-card rounded-xl p-sm flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-tertiary mb-xs" data-icon="trending_up">trending_up</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SURGING</span>
+<h4 class="font-headline-md text-[14px] mt-xs">Dark Matter</h4>
+</div>
+</div>
+</section>
+<!-- Recent Activity Feed -->
+<section class="mt-xl">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary" data-icon="history">history</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent Requests</h2>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center gap-md p-sm glass-card rounded-lg">
+<div class="w-12 h-16 rounded bg-surface-container-highest overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="A minimalist book-style poster for a classic drama movie set in a 1950s New York office. High grain, monochromatic black and white style, professional and clean." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJPoD40RDVKlyXzjuuWnKCRY1PL9L3wACZcNWGB0yBT6xbxq2zDN7xaQ0DW2CrR8YWivwX_pmC47yXA7FnCloCaDs37trLvghYFjwZQVQcMDyrl_Eqbuba2WrCMSXnpCJ1qr-A_eoDGg1jCIwGtyWewwzR7pK0FwA7BrZJEUfVYIz4zVe-v8egWGQMMot2An1SS6mIQhpwUFVM7AgGcIXzy6MWtQXN-wksz8-nvUmjchDoL4vDuAE_')"></div>
+</div>
+<div class="flex-1">
+<h4 class="font-body-lg text-body-lg text-on-surface">Succession</h4>
+<div class="flex items-center gap-sm mt-0.5">
+<div class="h-1 flex-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full w-3/4 bg-primary"></div>
+</div>
+<span class="font-label-code text-[10px] text-on-surface-variant">75%</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="downloading">downloading</span>
+</div>
+<div class="flex items-center gap-md p-sm glass-card rounded-lg">
+<div class="w-12 h-16 rounded bg-surface-container-highest overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="A vibrant animated movie poster showing a colorful undersea world with high detail and bioluminescent sea creatures. Style is playful but maintains high artistic fidelity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC_jAzJWZZpLeZxGJPBX_4WNH_4sQtO5MojzZu0Yv8G62-EdJnR8PyfVxSgh6K8KtuvLnDbWvKcQn9lZ72-5YZ9S0tnclBIIbAE2wKhPx5g1Gr5FApPKwL04d2ZCXBSHglsRJn1_547MRGkijho3g13glIRJPQ2AeixsgJECOOqrwrDWhMu407n2swGV4Iurq2BlL675jVG4jYbyBJCYmYLz8MxOUO20Gw1B-j0E0mGD3ZsR9WyAvoz')"></div>
+</div>
+<div class="flex-1">
+<h4 class="font-body-lg text-body-lg text-on-surface">The Abyss</h4>
+<p class="font-label-code text-[11px] text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                             Completed
+                        </p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="play_arrow">play_arrow</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-2 bg-surface-container-low dark:bg-surface-container-low border-t border-outline-variant dark:border-outline-variant">
+<!-- Discover Active -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-full px-4 py-1 transition-transform duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-label-caps text-label-caps">Discover</span>
+</a>
+<!-- Requests -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 transition-transform duration-150 scale-95 active:scale-90 hover:bg-surface-variant/30" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-label-caps text-label-caps">Requests</span>
+</a>
+<!-- Activity -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 transition-transform duration-150 scale-95 active:scale-90 hover:bg-surface-variant/30" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps">Activity</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 transition-transform duration-150 scale-95 active:scale-90 hover:bg-surface-variant/30" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.classList.add('scale-95');
+            });
+            button.addEventListener('touchend', function() {
+                this.classList.remove('scale-95');
+            });
+        });
+
+        // Simple search input focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>
