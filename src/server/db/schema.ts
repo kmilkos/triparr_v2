@@ -192,6 +192,7 @@ export const requests = sqliteTable("requests", {
   eta: integer("eta"), // in seconds
   releaseTitle: text("release_title"),
   releaseSize: integer("release_size"),
+  debridId: text("debrid_id"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
 });

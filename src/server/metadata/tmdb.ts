@@ -96,14 +96,62 @@ export async function searchTMDB(query: string, type: "movie" | "series") {
   return result?.results || [];
 }
 
-export async function getMovieMetadata(tmdbId: number): Promise<TMDBMovie | null> {
-  return fetchFromTMDB<TMDBMovie>(`/movie/${tmdbId}?append_to_response=credits`);
+export async function getMovieMetadata(tmdbId: number): Promise<any | null> {
+  return fetchFromTMDB<any>(`/movie/${tmdbId}?append_to_response=credits,keywords,recommendations`);
 }
 
-export async function getTVMetadata(tmdbId: number): Promise<TMDBShow | null> {
-  return fetchFromTMDB<TMDBShow>(`/tv/${tmdbId}?append_to_response=credits`);
+export async function getTVMetadata(tmdbId: number): Promise<any | null> {
+  return fetchFromTMDB<any>(`/tv/${tmdbId}?append_to_response=credits,keywords,recommendations`);
 }
 
 export async function getTVSeasonMetadata(tmdbId: number, seasonNumber: number): Promise<TMDBSeason | null> {
   return fetchFromTMDB<TMDBSeason>(`/tv/${tmdbId}/season/${seasonNumber}`);
 }
+
+export async function getTrending(): Promise<any[]> {
+  const result = await fetchFromTMDB<{ results: any[] }>("/trending/all/day");
+  return result?.results || [];
+}
+
+export async function getPopularMovies(): Promise<any[]> {
+  const result = await fetchFromTMDB<{ results: any[] }>("/movie/popular");
+  return result?.results || [];
+}
+
+export async function getPopularSeries(): Promise<any[]> {
+  const result = await fetchFromTMDB<{ results: any[] }>("/tv/popular");
+  return result?.results || [];
+}
+
+export async function getUpcomingMovies(): Promise<any[]> {
+  const result = await fetchFromTMDB<{ results: any[] }>("/movie/upcoming");
+  return result?.results || [];
+}
+
+export async function getUpcomingSeries(): Promise<any[]> {
+  const result = await fetchFromTMDB<{ results: any[] }>("/tv/on_the_air");
+  return result?.results || [];
+}
+
+export async function getMovieGenres(): Promise<any[]> {
+  const result = await fetchFromTMDB<{ genres: any[] }>("/genre/movie/list");
+  return result?.genres || [];
+}
+
+export async function getSeriesGenres(): Promise<any[]> {
+  const result = await fetchFromTMDB<{ genres: any[] }>("/genre/tv/list");
+  return result?.genres || [];
+}
+
+export async function discoverByGenre(genreId: number, type: "movie" | "series"): Promise<any[]> {
+  const path = type === "movie" ? `/discover/movie?with_genres=${genreId}` : `/discover/tv?with_genres=${genreId}`;
+  const result = await fetchFromTMDB<{ results: any[] }>(path);
+  return result?.results || [];
+}
+
+export async function discoverByCompanyOrNetwork(id: number, type: "movie" | "series"): Promise<any[]> {
+  const path = type === "movie" ? `/discover/movie?with_companies=${id}` : `/discover/tv?with_networks=${id}`;
+  const result = await fetchFromTMDB<{ results: any[] }>(path);
+  return result?.results || [];
+}
+

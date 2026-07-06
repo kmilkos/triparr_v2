@@ -15,6 +15,13 @@
       "when": 1783314407950,
       "tag": "0001_minor_yellowjacket",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1783331981447,
+      "tag": "0002_flashy_william_stryker",
+      "breakpoints": true
     }
   ]
 }

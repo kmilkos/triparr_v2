@@ -44,7 +44,8 @@ export async function checkAndInstallFFprobe(): Promise<string> {
   } catch (e) {
     // Check if local ffprobe exists
     const localBin = path.resolve("./data/bin");
-    const localFFprobe = path.join(localBin, "ffprobe.exe");
+    const isWindows = process.platform === "win32";
+    const localFFprobe = path.join(localBin, isWindows ? "ffprobe.exe" : "ffprobe");
     if (fs.existsSync(localFFprobe)) {
       console.log(`Local ffprobe found at ${localFFprobe}`);
       cachedFFprobePath = localFFprobe;
@@ -56,18 +57,45 @@ export async function checkAndInstallFFprobe(): Promise<string> {
       fs.mkdirSync(localBin, { recursive: true });
     }
 
-    const zipPath = path.join(localBin, "ffprobe.zip");
-    const url = "https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffprobe-6.1-win-64.zip";
+    // Determine platform download details
+    let url = "";
+    let archiveName = "";
+    if (isWindows) {
+      url = "https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffprobe-6.1-win-64.zip";
+      archiveName = "ffprobe.zip";
+    } else if (process.platform === "darwin") {
+      url = "https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffprobe-6.1-osx-64.zip";
+      archiveName = "ffprobe.zip";
+    } else {
+      // Linux fallback
+      url = "https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffprobe-6.1-linux-64.zip";
+      archiveName = "ffprobe.zip";
+    }
+
+    const archivePath = path.join(localBin, archiveName);
     
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       const buffer = Buffer.from(await response.arrayBuffer());
-      fs.writeFileSync(zipPath, buffer);
+      fs.writeFileSync(archivePath, buffer);
 
-      // Extract using powershell Expand-Archive on Windows
-      execSync(`powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${localBin}' -Force"`);
-      fs.unlinkSync(zipPath);
+      // Extract based on file type / platform
+      if (archiveName.endsWith(".zip")) {
+        if (isWindows) {
+          execSync(`powershell -Command "Expand-Archive -Path '${archivePath}' -DestinationPath '${localBin}' -Force"`);
+        } else {
+          execSync(`unzip -o "${archivePath}" -d "${localBin}"`);
+        }
+      } else if (archiveName.endsWith(".tar.xz")) {
+        execSync(`tar -xf "${archivePath}" -C "${localBin}"`);
+      }
+      
+      fs.unlinkSync(archivePath);
+
+      if (!isWindows && fs.existsSync(localFFprobe)) {
+        fs.chmodSync(localFFprobe, 0o755);
+      }
 
       console.log(`ffprobe successfully installed locally at ${localFFprobe}`);
       cachedFFprobePath = localFFprobe;
