@@ -148,10 +148,7 @@ fi
 # 7. Run npm installation, db migration and build
 info "Running database migrations and building Next.js application..."
 cd "$INSTALL_DIR"
-npm install --allow-scripts
-if command -v npx >/dev/null 2>&1; then
-    npx --yes allow-scripts auto >/dev/null 2>&1 || true
-fi
+npm install
 export DATABASE_PATH="$INSTALL_DIR/data/triparr.sqlite"
 npm run db:migrate
 npm run build

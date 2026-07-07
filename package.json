@@ -2,6 +2,10 @@
   "name": "triparr-v2",
   "version": "1.0.0",
   "private": true,
+  "allowScripts": {
+    "esbuild": true,
+    "sharp": true
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
