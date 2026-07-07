@@ -310,6 +310,18 @@ export default async function QueuePage({
                       </div>
                     )}
 
+                    {/* Error log details */}
+                    {request.error && (
+                      <details className="mt-2 text-xs bg-red-950/15 border border-red-500/20 rounded-lg p-2.5 text-red-300 font-mono max-w-2xl">
+                        <summary className="cursor-pointer font-bold text-[10px] uppercase text-red-400 select-none outline-none hover:text-red-300 transition-colors">
+                          View Error Log Details
+                        </summary>
+                        <div className="mt-2 whitespace-pre-wrap leading-relaxed text-[11px] select-text">
+                          {request.error}
+                        </div>
+                      </details>
+                    )}
+
                     {/* Progress details */}
                     {request.status !== "COMPLETED" &&
                       request.status !== "FAILED" &&

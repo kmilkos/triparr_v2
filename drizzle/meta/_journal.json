@@ -22,6 +22,13 @@
       "when": 1783331981447,
       "tag": "0002_flashy_william_stryker",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1783418045788,
+      "tag": "0003_curved_spirit",
+      "breakpoints": true
     }
   ]
 }

@@ -30,6 +30,7 @@ export async function handleRetryRequest(formData: FormData) {
         debridId: null,
         releaseTitle: null,
         releaseSize: null,
+        error: null,
         updatedAt: new Date().toISOString(),
       })
       .where(eq(requests.id, requestId))
@@ -59,6 +60,7 @@ export async function handleSelectRelease(formData: FormData) {
         releaseTitle: title,
         releaseSize: size,
         progress: 0,
+        error: null,
         updatedAt: new Date().toISOString(),
       })
       .where(eq(requests.id, requestId))

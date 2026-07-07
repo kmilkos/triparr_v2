@@ -262,9 +262,14 @@ async function processActiveRequests() {
         }
 
         if (candidates.length === 0) {
-          logger.warn(`Request ${req.id}: No torrent candidates found on Prowlarr.`);
+          const errMsg = "No torrent candidates found on Prowlarr indexers.";
+          logger.warn(`Request ${req.id}: ${errMsg}`);
           await db.update(requests)
-            .set({ status: "FAILED", updatedAt: new Date().toISOString() })
+            .set({
+              status: "FAILED",
+              error: errMsg,
+              updatedAt: new Date().toISOString(),
+            })
             .where(eq(requests.id, req.id))
             .run();
           continue;
@@ -319,16 +324,24 @@ async function processActiveRequests() {
         }
 
         if (!submitted) {
-          logger.error(`Request ${req.id}: All ${candidates.length} candidates were rejected or failed to submit to Real-Debrid.`);
+          const errMsg = `All ${candidates.length} candidate releases were rejected or failed to submit to Real-Debrid.`;
+          logger.error(`Request ${req.id}: ${errMsg}`);
           await db.update(requests)
-            .set({ status: "FAILED", updatedAt: new Date().toISOString() })
+            .set({
+              status: "FAILED",
+              error: errMsg,
+              updatedAt: new Date().toISOString()
+            })
             .where(eq(requests.id, req.id))
             .run();
         }
 
       } else if (req.status === "SEARCHING") {
         if (!req.debridId) {
-          await db.update(requests).set({ status: "FAILED" }).where(eq(requests.id, req.id)).run();
+          await db.update(requests)
+            .set({ status: "FAILED", error: "Missing Real-Debrid ID in SEARCHING state." })
+            .where(eq(requests.id, req.id))
+            .run();
           continue;
         }
 
@@ -346,7 +359,10 @@ async function processActiveRequests() {
 
       } else if (req.status === "DOWNLOADING") {
         if (!req.debridId) {
-          await db.update(requests).set({ status: "FAILED" }).where(eq(requests.id, req.id)).run();
+          await db.update(requests)
+            .set({ status: "FAILED", error: "Missing Real-Debrid ID in DOWNLOADING state." })
+            .where(eq(requests.id, req.id))
+            .run();
           continue;
         }
 
