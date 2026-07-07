@@ -70,6 +70,13 @@ export default async function RootLayout({
                 Discover / Search
               </Link>
               <Link
+                href="/queue"
+                className="flex items-center gap-3 px-4 py-2.5 rounded text-sm font-medium hover:bg-[#1C1B1B] hover:text-white transition-colors"
+              >
+                <span className="material-symbols-outlined text-[#8C909F] text-lg">downloading</span>
+                Download Queue
+              </Link>
+              <Link
                 href="/library"
                 className="flex items-center gap-3 px-4 py-2.5 rounded text-sm font-medium hover:bg-[#1C1B1B] hover:text-white transition-colors"
               >

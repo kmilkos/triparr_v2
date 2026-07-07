@@ -5,6 +5,7 @@ import { db } from "@/server/db";
 import { libraries } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { scanLibrary } from "@/server/metadata/scanner";
+import { checkAuth } from "@/server/auth";
 import { redirect } from "next/navigation";
 import * as fs from "fs";
 import * as path from "path";
@@ -72,3 +73,71 @@ export async function handleScan() {
     `/settings?scan_success=1&movies=${results.moviesScanned}&episodes=${results.episodesScanned}`
   );
 }
+
+export async function handleSaveFilters(formData: FormData) {
+  const resolutions = formData.getAll("resolutions") as string[];
+  const maxMovieSizeGb = parseFloat(formData.get("max_movie_size_gb") as string) || 0;
+  const maxEpisodeSizeGb = parseFloat(formData.get("max_episode_size_gb") as string) || 0;
+  const minSeeders = parseInt(formData.get("min_seeders") as string, 10) || 0;
+  const excludedKeywordsRaw = formData.get("excluded_keywords") as string;
+
+  const excludedKeywords = excludedKeywordsRaw
+    ? excludedKeywordsRaw.split(",").map((k) => k.trim().toLowerCase()).filter(Boolean)
+    : [];
+
+  const filters = {
+    allowedResolutions: resolutions,
+    maxMovieSizeGb,
+    maxEpisodeSizeGb,
+    minSeeders,
+    excludedKeywords,
+  };
+
+  await setSetting("release_filters", filters);
+
+  redirect("/settings?success=Filters saved successfully");
+}
+
+export async function listDirectories(targetPath: string) {
+  await checkAuth();
+  try {
+    const resolvedPath = path.resolve(targetPath || "/");
+
+    if (!fs.existsSync(resolvedPath)) {
+      return { success: false, error: "Directory does not exist", currentPath: resolvedPath, dirs: [], parentPath: null };
+    }
+
+    const stats = fs.statSync(resolvedPath);
+    if (!stats.isDirectory()) {
+      return { success: false, error: "Path is not a directory", currentPath: resolvedPath, dirs: [], parentPath: null };
+    }
+
+    const entries = fs.readdirSync(resolvedPath, { withFileTypes: true });
+
+    // Filter only directories and sort them alphabetically
+    const dirs = entries
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort((a, b) => a.localeCompare(b));
+
+    // Get parent path
+    const parentPath = path.dirname(resolvedPath);
+
+    return {
+      success: true,
+      currentPath: resolvedPath,
+      parentPath: resolvedPath === parentPath ? null : parentPath,
+      dirs,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || String(error),
+      currentPath: targetPath,
+      dirs: [],
+      parentPath: null,
+    };
+  }
+}
+
+

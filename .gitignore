@@ -23,3 +23,7 @@ Thumbs.db
 # Verification test leftovers
 verify.ts
 verify_libraries.ts
+
+# TypeScript Build Info cache
+*.tsbuildinfo
+tsconfig.tsbuildinfo

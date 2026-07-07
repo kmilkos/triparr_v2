@@ -3,11 +3,13 @@ import { seedDefaultLibraries } from "@/server/metadata/scanner";
 import { checkAuth } from "@/server/auth";
 import { db } from "@/server/db";
 import { libraries } from "@/server/db/schema";
+import { FolderBrowserInput } from "../components/FolderBrowserInput";
 import {
   handleSaveSettings,
   handleAddLibrary,
   handleDeleteLibrary,
-  handleScan
+  handleScan,
+  handleSaveFilters
 } from "./actions";
 
 export default async function SettingsPage({
@@ -27,8 +29,24 @@ export default async function SettingsPage({
   const prowlarrApiKey = (await getSetting<string>("prowlarr_api_key")) || "";
   const debridToken = (await getSetting<string>("real_debrid_token")) || "";
 
+  // Retrieve existing filters
+  const filters = (await getSetting<{
+    allowedResolutions?: string[];
+    maxMovieSizeGb?: number;
+    maxEpisodeSizeGb?: number;
+    minSeeders?: number;
+    excludedKeywords?: string[];
+  }>("release_filters")) || {};
+
+  const allowedResolutions = filters.allowedResolutions || ["2160p", "1080p", "720p"];
+  const maxMovieSizeGb = filters.maxMovieSizeGb !== undefined ? filters.maxMovieSizeGb : 30;
+  const maxEpisodeSizeGb = filters.maxEpisodeSizeGb !== undefined ? filters.maxEpisodeSizeGb : 10;
+  const minSeeders = filters.minSeeders !== undefined ? filters.minSeeders : 5;
+  const excludedKeywords = filters.excludedKeywords ? filters.excludedKeywords.join(", ") : "3d, cam, ts, tc, scr, korsub, bdrip";
+
   // Retrieve current media libraries list
   const currentLibraries = await db.select().from(libraries).all();
+
 
   return (
     <div className="max-w-4xl space-y-8">
@@ -135,6 +153,99 @@ export default async function SettingsPage({
             </div>
           </form>
 
+          {/* Release & Download Filters */}
+          <form action={handleSaveFilters} className="glass-card rounded-xl p-6 space-y-6">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider pb-2 border-b border-[#262626]">
+              Release & Download Filters
+            </h3>
+
+            {/* Allowed Resolutions */}
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold text-[#8C909F] uppercase">
+                Allowed Resolutions
+              </label>
+              <div className="flex flex-wrap gap-4 text-sm text-white">
+                {["2160p", "1080p", "720p", "480p"].map((res) => (
+                  <label key={res} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="resolutions"
+                      value={res}
+                      defaultChecked={allowedResolutions.includes(res)}
+                      className="rounded border-[#262626] bg-[#0F0F0F] text-[#3B82F6] focus:ring-0 focus:ring-offset-0"
+                    />
+                    <span>{res}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Max Sizes & Min Seeders */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="space-y-1">
+                <label className="block text-xs font-semibold text-[#8C909F] uppercase">
+                  Max Movie Size (GB)
+                </label>
+                <input
+                  type="number"
+                  step="0.1"
+                  name="max_movie_size_gb"
+                  defaultValue={maxMovieSizeGb}
+                  className="w-full px-3 py-2 bg-[#0F0F0F] border border-[#262626] rounded text-white text-sm focus:outline-none focus:border-[#3B82F6] transition-colors"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="block text-xs font-semibold text-[#8C909F] uppercase">
+                  Max TV Episode Size (GB)
+                </label>
+                <input
+                  type="number"
+                  step="0.1"
+                  name="max_episode_size_gb"
+                  defaultValue={maxEpisodeSizeGb}
+                  className="w-full px-3 py-2 bg-[#0F0F0F] border border-[#262626] rounded text-white text-sm focus:outline-none focus:border-[#3B82F6] transition-colors"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="block text-xs font-semibold text-[#8C909F] uppercase">
+                  Min Seeders
+                </label>
+                <input
+                  type="number"
+                  name="min_seeders"
+                  defaultValue={minSeeders}
+                  className="w-full px-3 py-2 bg-[#0F0F0F] border border-[#262626] rounded text-white text-sm focus:outline-none focus:border-[#3B82F6] transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Excluded Keywords */}
+            <div className="space-y-1">
+              <label className="block text-xs font-semibold text-[#8C909F] uppercase">
+                Excluded Keywords (comma-separated)
+              </label>
+              <input
+                type="text"
+                name="excluded_keywords"
+                defaultValue={excludedKeywords}
+                placeholder="e.g. 3d, cam, ts, tc, scr, korsub"
+                className="w-full px-3 py-2 bg-[#0F0F0F] border border-[#262626] rounded text-white text-sm focus:outline-none focus:border-[#3B82F6] transition-colors"
+              />
+              <p className="text-[10px] text-[#8C909F]">Releases matching any of these keywords will be filtered out.</p>
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="py-2 px-6 bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold text-sm rounded shadow transition-colors"
+              >
+                Save Filter Settings
+              </button>
+            </div>
+          </form>
+
           {/* Multiple Media Libraries Manager */}
           <div className="glass-card rounded-xl p-6 space-y-6">
             <h3 className="text-sm font-bold text-white uppercase tracking-wider pb-2 border-b border-[#262626]">
@@ -184,11 +295,9 @@ export default async function SettingsPage({
                 </div>
                 <div className="space-y-1 sm:col-span-2">
                   <label className="block text-[10px] font-semibold text-[#8C909F] uppercase">Folder Path</label>
-                  <input
-                    type="text"
+                  <FolderBrowserInput
                     name="path"
-                    placeholder="e.g. F:\AI Projects\triparr_v2\data\Libraries\KidsMovies"
-                    className="w-full px-3 py-1.5 bg-[#0F0F0F] border border-[#262626] rounded text-white text-sm focus:outline-none focus:border-[#3B82F6] transition-colors"
+                    placeholder="e.g. /opt/triparr/data/Libraries/KidsMovies"
                   />
                 </div>
               </div>

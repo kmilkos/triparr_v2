@@ -188,6 +188,79 @@ async function processActiveRequests() {
         let candidates = await searchProwlarr(queryStr, item.type);
         candidates = candidates.filter((c) => !failedReleaseTitles.has(c.title));
 
+        const filters = await getSetting<{
+          allowedResolutions?: string[];
+          maxMovieSizeGb?: number;
+          maxEpisodeSizeGb?: number;
+          minSeeders?: number;
+          excludedKeywords?: string[];
+        }>("release_filters");
+
+        if (filters) {
+          const {
+            allowedResolutions = [],
+            maxMovieSizeGb = 0,
+            maxEpisodeSizeGb = 0,
+            minSeeders = 0,
+            excludedKeywords = [],
+          } = filters;
+
+          const beforeCount = candidates.length;
+          candidates = candidates.filter((candidate) => {
+            const titleLower = candidate.title.toLowerCase();
+
+            // 1. Excluded Keywords
+            for (const kw of excludedKeywords) {
+              if (titleLower.includes(kw)) {
+                logger.info(`Request ${req.id} (Filters): Candidate "${candidate.title}" excluded because it matched keyword "${kw}"`);
+                return false;
+              }
+            }
+
+            // 2. Minimum Seeders
+            if (minSeeders > 0 && candidate.seeders < minSeeders) {
+              logger.info(`Request ${req.id} (Filters): Candidate "${candidate.title}" excluded because seeders (${candidate.seeders}) < minSeeders (${minSeeders})`);
+              return false;
+            }
+
+            // 3. Maximum Size
+            const sizeGb = candidate.size / (1024 * 1024 * 1024);
+            const maxSize = item.type === "movie" ? maxMovieSizeGb : maxEpisodeSizeGb;
+            if (maxSize > 0 && sizeGb > maxSize) {
+              logger.info(`Request ${req.id} (Filters): Candidate "${candidate.title}" excluded because size (${sizeGb.toFixed(2)} GB) > maxSize (${maxSize} GB)`);
+              return false;
+            }
+
+            // 4. Allowed Resolutions
+            if (allowedResolutions.length > 0) {
+              const resolutionPatterns: Record<string, string[]> = {
+                "2160p": ["2160p", "2160", "4k", "uhd"],
+                "1080p": ["1080p", "1080", "fhd"],
+                "720p": ["720p", "720", "hd"],
+                "480p": ["480p", "480", "sd"],
+              };
+
+              let matchesAnyAllowed = false;
+              for (const allowedRes of allowedResolutions) {
+                const patterns = resolutionPatterns[allowedRes] || [allowedRes];
+                if (patterns.some((p) => titleLower.includes(p))) {
+                  matchesAnyAllowed = true;
+                  break;
+                }
+              }
+
+              if (!matchesAnyAllowed) {
+                logger.info(`Request ${req.id} (Filters): Candidate "${candidate.title}" excluded because it does not match allowed resolutions [${allowedResolutions.join(", ")}]`);
+                return false;
+              }
+            }
+
+            return true;
+          });
+
+          logger.info(`Request ${req.id} (Filters): Filtered out ${beforeCount - candidates.length} candidates out of ${beforeCount}.`);
+        }
+
         if (candidates.length === 0) {
           logger.warn(`Request ${req.id}: No torrent candidates found on Prowlarr.`);
           await db.update(requests)
