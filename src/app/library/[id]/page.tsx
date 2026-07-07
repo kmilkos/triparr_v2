@@ -231,12 +231,16 @@ export default async function MediaDetailPage({
         .where(eq(seriesSeasons.seriesId, id))
         .all();
 
+      seasons.sort((a, b) => a.seasonNumber - b.seasonNumber);
+
       for (const s of seasons) {
         const episodes = await db
           .select()
           .from(seriesEpisodes)
           .where(eq(seriesEpisodes.seasonId, s.id))
           .all();
+
+        episodes.sort((a, b) => a.episodeNumber - b.episodeNumber);
 
         const epsWithFiles = await Promise.all(episodes.map(async (ep) => {
           const file = await db
@@ -252,7 +256,9 @@ export default async function MediaDetailPage({
     }
   } else if (item.type === "series" && tmdbShowRaw) {
     // Dynamically show seasons/episodes structure from TMDB response
-    const seasons = tmdbShowRaw.seasons || [];
+    const seasons = [...(tmdbShowRaw.seasons || [])];
+    seasons.sort((a, b) => a.season_number - b.season_number);
+
     for (const s of seasons) {
       const episodesList = Array.from({ length: s.episode_count }, (_, i) => ({
         id: `temp-ep-${id}-${s.season_number}-${i + 1}`,
