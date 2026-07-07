@@ -5,6 +5,8 @@ import { checkAuth } from "@/server/auth";
 import { AutoRefresh } from "../components/AutoRefresh";
 import Link from "next/link";
 import { searchProwlarr } from "@/server/requests/prowlarr";
+import * as fs from "fs";
+import * as path from "path";
 import {
   handleCancelRequest,
   handleRetryRequest,
@@ -53,6 +55,17 @@ export default async function QueuePage({
     .leftJoin(libraries, eq(requests.libraryId, libraries.id))
     .orderBy(desc(requests.updatedAt))
     .all();
+
+  // Load global logs
+  const logPath = path.resolve("./data/triparr.log");
+  let logContent = "";
+  if (fs.existsSync(logPath)) {
+    try {
+      logContent = fs.readFileSync(logPath, "utf-8");
+    } catch (err) {
+      console.error("Failed to read log file for queue page:", err);
+    }
+  }
 
   // Statistics
   const totalCount = queueItems.length;
@@ -247,6 +260,14 @@ export default async function QueuePage({
                 ? `https://image.tmdb.org/t/p/w185${item.posterPath}`
                 : null;
 
+              const matchingLogs = logContent
+                ? logContent
+                    .split("\n")
+                    .filter((line) => line.includes(request.id))
+                    .map((line) => line.trim())
+                    .filter(Boolean)
+                : [];
+
               // Color classes for request states
               let stateColor = "bg-[#262626] text-[#8C909F]";
               if (request.status === "COMPLETED") {
@@ -318,6 +339,23 @@ export default async function QueuePage({
                         </summary>
                         <div className="mt-2 whitespace-pre-wrap leading-relaxed text-[11px] select-text">
                           {request.error}
+                        </div>
+                      </details>
+                    )}
+
+                    {/* Real-time Activity Log */}
+                    {matchingLogs.length > 0 && (
+                      <details className="mt-2 text-[11px] bg-[#0A0A0A] border border-[#262626] rounded-lg p-2.5 text-[#C2C6D6] font-mono max-w-2xl">
+                        <summary className="cursor-pointer font-bold text-[9px] uppercase text-[#8C909F] select-none outline-none hover:text-white transition-colors flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-[12px] text-[#3B82F6]">terminal</span>
+                          View Activity Logs ({matchingLogs.length})
+                        </summary>
+                        <div className="mt-2 space-y-1 max-h-40 overflow-y-auto pr-1 text-[10px] leading-relaxed select-text divide-y divide-[#262626]/20">
+                          {matchingLogs.map((log, idx) => (
+                            <div key={idx} className="py-0.5 truncate hover:whitespace-normal" title={log}>
+                              {log}
+                            </div>
+                          ))}
                         </div>
                       </details>
                     )}
