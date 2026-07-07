@@ -70,7 +70,7 @@ install_debian_deps() {
     fi
 
     info "Installing system dependencies..."
-    apt-get install -y nodejs git sqlite3 build-essential
+    apt-get install -y nodejs git sqlite3 build-essential rsync
 }
 
 install_fedora_deps() {
@@ -86,9 +86,9 @@ install_fedora_deps() {
 
     info "Installing system dependencies..."
     if [ "$install_node" = true ]; then
-        dnf install -y nodejs git sqlite3
+        dnf install -y nodejs git sqlite3 rsync
     else
-        dnf install -y git sqlite3
+        dnf install -y git sqlite3 rsync
     fi
     dnf groupinstall -y "Development Tools"
 }
