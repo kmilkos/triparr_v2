@@ -101,10 +101,15 @@ export async function handleSaveFilters(formData: FormData) {
 export async function listDirectories(targetPath: string) {
   await checkAuth();
   try {
-    const resolvedPath = path.resolve(targetPath || "/");
+    let resolvedPath = path.resolve(targetPath || ".");
+
+    // Fallback to nearest existing parent directory if path does not exist
+    while (resolvedPath && resolvedPath !== "/" && !fs.existsSync(resolvedPath)) {
+      resolvedPath = path.dirname(resolvedPath);
+    }
 
     if (!fs.existsSync(resolvedPath)) {
-      return { success: false, error: "Directory does not exist", currentPath: resolvedPath, dirs: [], parentPath: null };
+      resolvedPath = "/";
     }
 
     const stats = fs.statSync(resolvedPath);
@@ -133,7 +138,7 @@ export async function listDirectories(targetPath: string) {
     return {
       success: false,
       error: error.message || String(error),
-      currentPath: targetPath,
+      currentPath: targetPath || "/",
       dirs: [],
       parentPath: null,
     };

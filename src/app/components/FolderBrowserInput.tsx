@@ -47,8 +47,8 @@ export function FolderBrowserInput({
 
   const handleOpenBrowser = () => {
     setShowModal(true);
-    // Use value in input if it exists, otherwise default to home/root
-    loadPath(pathValue || "/home" || "/");
+    // Use value in input if it exists, otherwise default to current working directory
+    loadPath(pathValue || ".");
   };
 
   const handleNavigate = (subDir: string) => {
