@@ -145,10 +145,12 @@ else
     info "Environment file .env already exists. Skipping."
 fi
 
-# 7. Run npm installation and build
-info "Building Next.js application..."
+# 7. Run npm installation, db migration and build
+info "Running database migrations and building Next.js application..."
 cd "$INSTALL_DIR"
 npm install
+export DATABASE_PATH="$INSTALL_DIR/data/triparr.sqlite"
+npm run db:migrate
 npm run build
 
 # Adjust folder ownership to triparr user
