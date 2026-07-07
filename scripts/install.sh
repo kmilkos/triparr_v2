@@ -167,13 +167,15 @@ if [ -f "$INSTALL_DIR/deploy/systemd/triparr-web.service" ] && [ -f "$INSTALL_DI
     # Reload daemon and start
     systemctl daemon-reload
     
-    info "Enabling and starting triparr-web.service..."
-    systemctl enable --now triparr-web.service
+    info "Enabling and restarting triparr-web.service..."
+    systemctl enable triparr-web.service
+    systemctl restart triparr-web.service
     
-    info "Enabling and starting triparr-worker.service..."
-    systemctl enable --now triparr-worker.service
+    info "Enabling and restarting triparr-worker.service..."
+    systemctl enable triparr-worker.service
+    systemctl restart triparr-worker.service
     
-    success "Systemd services started and enabled."
+    success "Systemd services started/restarted and enabled."
 else
     error "Systemd template units not found in deploy/systemd/."
 fi
