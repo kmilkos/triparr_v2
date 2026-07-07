@@ -33,7 +33,9 @@ export async function searchProwlarr(
     .replace(/\/api$/, "")
     .replace(/\/search$/, ""); // Double-pass check
 
-  const url = `${baseUrl}/api/v1/search?query=${encodeURIComponent(query)}&type=search`;
+  // Categories: Movies = 2000, TV = 5000
+  const categories = type === "movie" ? "2000" : "5000";
+  const url = `${baseUrl}/api/v1/search?query=${encodeURIComponent(query)}&categories=${categories}&indexerIds=-2&type=search`;
 
   // Log the Prowlarr search query command (redacting the middle portion of the API key for security)
   const redactedKey = prowlarrApiKey.length > 8 
