@@ -211,7 +211,11 @@ async function processActiveRequests() {
 
             // 1. Excluded Keywords
             for (const kw of excludedKeywords) {
-              if (titleLower.includes(kw)) {
+              // Escape special characters in keyword for regex safety
+              const escapedKw = kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+              // Use regex with word boundaries (dot, hyphen, spaces, brackets all count as boundaries)
+              const regex = new RegExp(`\\b${escapedKw}\\b`, "i");
+              if (regex.test(candidate.title)) {
                 logger.info(`Request ${req.id} (Filters): Candidate "${candidate.title}" excluded because it matched keyword "${kw}"`);
                 return false;
               }
