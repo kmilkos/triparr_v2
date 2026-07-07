@@ -49,7 +49,7 @@ export async function searchProwlarr(
         "X-Api-Key": prowlarrApiKey,
         "Accept": "application/json",
       },
-      signal: AbortSignal.timeout(60000), // 60s timeout
+      signal: AbortSignal.timeout(180000), // 180s (3 minutes) timeout for slow trackers
     });
 
     if (!res.ok) {
@@ -77,7 +77,7 @@ export async function searchProwlarr(
     // Sort by seeders descending
     return candidates.sort((a, b) => b.seeders - a.seeders);
   } catch (error: any) {
-    console.error("Error searching Prowlarr:", error.message || error);
+    logger.error("Error searching Prowlarr:", error);
     return [];
   }
 }
