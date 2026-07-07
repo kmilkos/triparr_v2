@@ -438,12 +438,16 @@ async function processActiveRequests() {
               if (req.releaseTitle) {
                 failedReleaseTitles.add(req.releaseTitle);
               }
+              
+              const errStr = String(err.message || err).toLowerCase();
+              const isPermanent = errStr.includes("eacces") || errStr.includes("eperm") || errStr.includes("permission denied") || errStr.includes("enospc");
+
               await db.update(requests)
                 .set({
-                  status: "REQUESTED",
-                  debridId: null,
-                  releaseTitle: null,
-                  releaseSize: null,
+                  status: isPermanent ? "FAILED" : "REQUESTED",
+                  debridId: isPermanent ? req.debridId : null,
+                  releaseTitle: isPermanent ? req.releaseTitle : null,
+                  releaseSize: isPermanent ? req.releaseSize : null,
                   progress: 0,
                   updatedAt: new Date().toISOString(),
                 })
