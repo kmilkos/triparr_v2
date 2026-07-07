@@ -18,6 +18,7 @@ import Link from "next/link";
 import { handleRequestDetails, handleCancelRequest, handleDeleteMedia } from "./actions";
 import { checkAuth } from "@/server/auth";
 import { AutoRefresh } from "../../components/AutoRefresh";
+import { SeasonTabs } from "../../components/SeasonTabs";
 
 import { getMovieMetadata, getTVMetadata } from "@/server/metadata/tmdb";
 
@@ -444,6 +445,11 @@ export default async function MediaDetailPage({
             </div>
           )}
 
+          {/* Season & Episode tabs (TV Series) */}
+          {item.type === "series" && seasonsWithEpisodes.length > 0 && (
+            <SeasonTabs seasons={seasonsWithEpisodes} />
+          )}
+
           {/* Recommendations (Similar items) */}
           {recommendationsList.length > 0 && (
             <div className="space-y-3 pt-4 border-t border-[#262626]">
@@ -556,55 +562,6 @@ export default async function MediaDetailPage({
             </div>
           )}
 
-          {/* Hierarchy Details (TV Series) */}
-          {item.type === "series" && seasonsWithEpisodes.length > 0 && (
-            <div className="space-y-6 pt-4 border-t border-[#262626]">
-              <h3 className="text-xs font-bold text-[#8C909F] uppercase tracking-wider">Seasons & Episodes</h3>
-              {seasonsWithEpisodes.map((season) => (
-                <div key={season.id} className="bg-[#131313] border border-[#262626] rounded-xl overflow-hidden">
-                  <div className="bg-[#1C1B1B] px-4 py-3 border-b border-[#262626] flex items-center justify-between">
-                    <span className="font-semibold text-white text-sm">{season.title}</span>
-                    <span className="text-[10px] font-mono text-[#8C909F]">
-                      {season.episodes.length} Episodes
-                    </span>
-                  </div>
-                  <div className="divide-y divide-[#262626]">
-                    {season.episodes.map((ep: any) => (
-                      <div key={ep.id} className="p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                        <div className="space-y-1">
-                          <div className="text-xs font-bold text-white">
-                            Episode {ep.episodeNumber}: {ep.title}
-                          </div>
-                          {ep.overview && <p className="text-[11px] text-[#8C909F] leading-normal max-w-2xl">{ep.overview}</p>}
-                        </div>
-
-                        {/* File details for episode */}
-                        {ep.file ? (
-                          <div className="flex items-center gap-3 self-start sm:self-center shrink-0">
-                            <span className="px-2 py-0.5 bg-[#10B981]/15 text-[#10B981] text-[10px] font-bold font-mono rounded">
-                              {ep.file.videoResolution}
-                            </span>
-                            <div className="text-right">
-                              <div className="text-[10px] font-mono text-white">
-                                {(ep.file.size / (1024 * 1024 * 1024)).toFixed(2)} GB
-                              </div>
-                              <div className="text-[9px] font-mono text-[#8C909F] uppercase">
-                                {ep.file.container} / {ep.file.videoCodec}
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="px-2 py-0.5 bg-[#262626] text-[#8C909F] text-[10px] font-bold rounded self-start sm:self-center shrink-0">
-                            Missing
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Right Sidebar Column */}
