@@ -25,16 +25,17 @@ export async function searchProwlarr(
     return [];
   }
 
-  // Normalize URL and ensure it has api/v1
+  // Normalize URL to get host and port root, then construct clean search path
   let baseUrl = prowlarrUrl.trim().replace(/\/+$/, "");
-  baseUrl = baseUrl.replace(/\/0\/api$/, "").replace(/\/api$/, "");
-  if (!baseUrl.includes("/api/v1")) {
-    baseUrl = `${baseUrl}/api/v1`;
-  }
+  baseUrl = baseUrl
+    .replace(/\/search$/, "")
+    .replace(/\/v1$/, "")
+    .replace(/\/api$/, "")
+    .replace(/\/search$/, ""); // Double-pass check
 
   // Categories: Movies = 2000, TV = 5000
   const categories = type === "movie" ? "2000" : "5000";
-  const url = `${baseUrl}/search?query=${encodeURIComponent(query)}&categories=${categories}&indexerIds=-2&type=search`;
+  const url = `${baseUrl}/api/v1/search?query=${encodeURIComponent(query)}&categories=${categories}&indexerIds=-2&type=search`;
 
   // Log the Prowlarr search query command (redacting the middle portion of the API key for security)
   const redactedKey = prowlarrApiKey.length > 8 
