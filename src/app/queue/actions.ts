@@ -7,11 +7,13 @@ import { checkAuth } from "@/server/auth";
 import { redirect } from "next/navigation";
 import { addTorrentOrMagnetToDebrid } from "@/server/requests/debrid";
 
+import { cancelRequestAndCleanup } from "../actions";
+
 export async function handleCancelRequest(formData: FormData) {
   await checkAuth();
   const requestId = formData.get("requestId") as string;
   if (requestId) {
-    await db.delete(requests).where(eq(requests.id, requestId)).run();
+    await cancelRequestAndCleanup(requestId);
   }
   redirect("/queue?success=Request cancelled");
 }

@@ -7,6 +7,9 @@ import { requests } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { checkAuth } from "@/server/auth";
 
+import { cancelRequestAndCleanup, deleteMediaFilesFromDisk } from "../../actions";
+import { mediaItems } from "@/server/db/schema";
+
 export async function handleRequestDetails(formData: FormData) {
   const tmdbId = parseInt(formData.get("tmdbId") as string, 10);
   const itemType = formData.get("itemType") as "movie" | "series";
@@ -23,8 +26,19 @@ export async function handleCancelRequest(formData: FormData) {
   const itemId = formData.get("itemId") as string;
 
   if (requestId) {
-    await db.delete(requests).where(eq(requests.id, requestId)).run();
+    await cancelRequestAndCleanup(requestId);
   }
   redirect(`/library/${itemId}`);
+}
+
+export async function handleDeleteMedia(formData: FormData) {
+  await checkAuth();
+  const itemId = formData.get("itemId") as string;
+
+  if (itemId) {
+    await deleteMediaFilesFromDisk(itemId);
+    await db.delete(mediaItems).where(eq(mediaItems.id, itemId)).run();
+  }
+  redirect("/library");
 }
 

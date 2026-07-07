@@ -217,3 +217,13 @@ export async function unrestrictLink(link: string): Promise<string> {
 
   return res.download;
 }
+
+export async function deleteDebridTorrent(torrentId: string): Promise<void> {
+  try {
+    await rdFetch<void>(`/torrents/delete/${torrentId}`, {
+      method: "DELETE",
+    });
+  } catch (err) {
+    console.error(`Failed to delete Real-Debrid torrent ${torrentId}:`, err);
+  }
+}

@@ -15,7 +15,7 @@ import {
 import { eq, and, sql, notInArray } from "drizzle-orm";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { handleRequestDetails, handleCancelRequest } from "./actions";
+import { handleRequestDetails, handleCancelRequest, handleDeleteMedia } from "./actions";
 import { checkAuth } from "@/server/auth";
 import { AutoRefresh } from "../../components/AutoRefresh";
 
@@ -680,13 +680,25 @@ export default async function MediaDetailPage({
             )}
 
             {currentState === "here" && (
-              <button
-                disabled
-                className="w-full py-2.5 px-4 bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] font-semibold text-sm rounded-lg flex items-center justify-center gap-2 cursor-default"
-              >
-                <span className="material-symbols-outlined text-lg">check_circle</span>
-                Locally Available
-              </button>
+              <div className="space-y-3">
+                <button
+                  disabled
+                  className="w-full py-2.5 px-4 bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] font-semibold text-sm rounded-lg flex items-center justify-center gap-2 cursor-default"
+                >
+                  <span className="material-symbols-outlined text-lg">check_circle</span>
+                  Locally Available
+                </button>
+                <form action={handleDeleteMedia}>
+                  <input type="hidden" name="itemId" value={itemId} />
+                  <button
+                    type="submit"
+                    className="w-full py-2 bg-red-950/40 hover:bg-red-900/40 border border-red-500/30 text-red-300 font-semibold text-xs rounded-lg flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-md"
+                  >
+                    <span className="material-symbols-outlined text-sm">delete</span>
+                    Delete Media & Files
+                  </button>
+                </form>
+              </div>
             )}
           </div>
 
