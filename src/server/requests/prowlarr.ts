@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 import { getSetting } from "../settings";
 
 export interface ProwlarrCandidate {
@@ -34,6 +35,12 @@ export async function searchProwlarr(
   // Categories: Movies = 2000, TV = 5000
   const categories = type === "movie" ? "2000" : "5000";
   const url = `${baseUrl}/search?query=${encodeURIComponent(query)}&categories=${categories}&indexerIds=-2&type=search`;
+
+  // Log the Prowlarr search query command (redacting the middle portion of the API key for security)
+  const redactedKey = prowlarrApiKey.length > 8 
+    ? `${prowlarrApiKey.substring(0, 4)}...${prowlarrApiKey.substring(prowlarrApiKey.length - 4)}` 
+    : "[REDACTED]";
+  logger.info(`Prowlarr Search command: curl -X GET "${url}" -H "X-Api-Key: ${redactedKey}"`);
 
   try {
     const res = await fetch(url, {
