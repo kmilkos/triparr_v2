@@ -33,7 +33,7 @@ export async function searchProwlarr(
 
   // Categories: Movies = 2000, TV = 5000
   const categories = type === "movie" ? "2000" : "5000";
-  const url = `${baseUrl}/search?query=${encodeURIComponent(query)}&categories=${categories}&type=search`;
+  const url = `${baseUrl}/search?query=${encodeURIComponent(query)}&categories=${categories}&indexerIds=-2&type=search`;
 
   try {
     const res = await fetch(url, {
